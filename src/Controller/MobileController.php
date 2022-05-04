@@ -23,11 +23,11 @@ class MobileController extends AppController
     public function login()
     {
     }
-    public function anos()
+    public function anos($siape = null)
     {
         $this->LoadModel('Pits');
         $this->LoadModel('Documents');
-        $siape = 1765127;
+        
         $anosPit = $this->Pits->find('all', ['fields'=>['Pits.ano'], 'conditions'=>"Employees.siape = '$siape'", 'group'=>'Pits.ano'])->join(['table'=>'employees', 'alias'=>'Employees', 'type'=>'INNER', 'conditions'=>"Employees.id = Pits.employee_id"])->toArray();
         $anosDoc = $this->Documents->find('all', ['fields'=>['Ministers.ano'], 'conditions'=>"Employees.siape = '$siape'", 'group'=>'Ministers.ano'])->join(['table'=>'ministers', 'alias'=>'Ministers', 'type'=>'INNER', 'conditions'=>"Ministers.id = Documents.minister_id"])->join(['table'=>'employees', 'alias'=>'Employees', 'type'=>'INNER', 'conditions'=>"Employees.id = Ministers.employee_id"])->toArray();
         $anoPit = [];
